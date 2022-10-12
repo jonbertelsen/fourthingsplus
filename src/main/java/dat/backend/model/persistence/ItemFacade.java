@@ -10,4 +10,24 @@ public class ItemFacade
     {
         return ItemMapper.getItems(connectionPool);
     }
+
+    public static void toggleItemStatus(int item_id, ConnectionPool connectionPool)
+    {
+        ItemMapper.toggleItemStatus(item_id, connectionPool);
+    }
+
+    public static Item getItemById(int item_id, ConnectionPool connectionPool)
+    {
+        return ItemMapper.getItemById(item_id, connectionPool);
+    }
+
+    public static void updateItemName(int item_id, String name, ConnectionPool connectionPool)
+    {
+        ItemMapper.updateItemName(item_id, name, connectionPool);
+    }
+
+    public static int insertItem(String name, String username, ConnectionPool connectionPool)
+    {
+        return ItemMapper.insertItem(name, username, connectionPool);
+    }
 }

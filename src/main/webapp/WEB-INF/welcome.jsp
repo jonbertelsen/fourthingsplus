@@ -3,34 +3,69 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
 
-<t:pagetemplate>
+<t:fourthingsplus_template>
     <jsp:attribute name="header">
-         Welcome to the logged in area
-    </jsp:attribute>
-
-    <jsp:attribute name="footer">
-        Logged in area
+         Welcome
     </jsp:attribute>
 
     <jsp:body>
 
-        <p>You should be logged in now</p>
+        <form method="post">
 
-        <h3>Itemlist</h3>
-        <ul>
-            <c:forEach var="item" items="${requestScope.itemList}">
-                <li>${item.name} (${item.created})</li>
-            </c:forEach>
-        </ul>
-        <c:if test="${sessionScope.user != null}">
-            <p>You are logged in with the role of "${sessionScope.user.role}".</p>
-        </c:if>
+            <div class="form-outline mb-4">
+                <div class="row">
+                <div class="col">
+                    <input name="name" placeholder="New item" class="form-control" id="name" type="text"/>
+                </div>
+                <div class="col">
+                <button class="btn btn-outline-secondary" formaction="additem" name="item_id">
+                    Add
+                </button>
+                </div>
+                </div>
+            </div>
 
-        <c:if test="${sessionScope.user == null}">
-            <p>You are not logged in yet. You can do it here: <a
-                    href="../login.jsp">Login</a></p>
-        </c:if>
+            <h3>Doing</h3>
 
+            <table class="table table-striped">
+                <tr>
+                    <th  style="width:70%">Item</th>
+                    <th>Action</th>
+                </tr>
+                <c:forEach var="item" items="${requestScope.itemList}">
+                    <c:if test="${!item.done}">
+                        <tr>
+                            <td class="w-80">${item.name}</td>
+                            <td class="w-20">
+                                <button  style="width:75px;" class="btn btn-outline-secondary mb-2" formaction="done" value="${item.id}" name="item_id">Done</button>
+                                <button  style="width:75px;" class="btn btn-outline-secondary  mb-2" formaction="edit" value="${item.id}" name="item_id">Edit</button>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </table>
+        </form>
+
+        <h3>Way gone and done</h3>
+
+        <form method="post">
+            <table class="table table-striped">
+                <tr>
+                    <th style="width:70%">Item</th>
+                    <th>Action</th>
+                </tr>
+                <c:forEach var="item" items="${requestScope.itemList}">
+                    <c:if test="${item.done}">
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>
+                                <button style="width:75px;" class="btn btn-outline-secondary" formaction="done" value="${item.id}" name="item_id">Undo</button>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </table>
+        </form>
     </jsp:body>
 
-</t:pagetemplate>
+</t:fourthingsplus_template>
