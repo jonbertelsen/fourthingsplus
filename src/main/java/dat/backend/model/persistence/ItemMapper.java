@@ -1,6 +1,5 @@
 package dat.backend.model.persistence;
 
-import com.mysql.cj.protocol.Resultset;
 import dat.backend.model.entities.Item;
 
 import java.sql.*;
@@ -9,17 +8,17 @@ import java.util.List;
 
 class ItemMapper
 {
-    static List<Item> getItems(ConnectionPool connectionPool)
+    static List<Item> getItems(dat.backend.model.persistence.ConnectionPool connectionPool)
     {
         List<Item> itemList = new ArrayList<>();
 
         String sql = "select * from item";
 
-        try (Connection connection = connectionPool.getConnection() )
+        try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql))
             {
-                ResultSet rs =  ps.executeQuery();
+                ResultSet rs = ps.executeQuery();
                 while (rs.next())
                 {
                     int id = rs.getInt("item_id");
@@ -67,12 +66,12 @@ class ItemMapper
     {
         String sql = "select * from item where item_id = ?";
 
-        try (Connection connection = connectionPool.getConnection() )
+        try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql))
             {
                 ps.setInt(1, item_id);
-                ResultSet rs =  ps.executeQuery();
+                ResultSet rs = ps.executeQuery();
                 if (rs.next())
                 {
                     int id = rs.getInt("item_id");
@@ -114,4 +113,27 @@ class ItemMapper
             e.printStackTrace();
         }
     }
+
+    public static int addItem(String itemName, String username, ConnectionPool connectionPool)
+    {
+        String sql = "INSERT INTO item (name, username) VALUES (?,?)";
+        try (Connection connection = connectionPool.getConnection())
+        {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
+            {
+                ps.setString(1, itemName);
+                ps.setString(2, username);
+                ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
+                rs.next();
+                return rs.getInt(1);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

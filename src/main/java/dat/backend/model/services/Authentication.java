@@ -16,4 +16,15 @@ public class Authentication
         }
         return false;
     }
+
+    public static boolean isUserLoggedIn(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user != null)
+        {
+            return true;
+        }
+        return false;
+    }
 }

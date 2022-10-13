@@ -25,4 +25,9 @@ public class ItemFacade
     {
         ItemMapper.updateItemName(item_id, name, connectionPool);
     }
+
+    public static int addItem(String itemName, String user, ConnectionPool connectionPool)
+    {
+        return ItemMapper.addItem(itemName, user, connectionPool);
+    }
 }

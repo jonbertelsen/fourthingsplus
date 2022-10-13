@@ -11,9 +11,13 @@
 
     <jsp:body>
 
-        <p>You should be logged in now</p>
-
         <form method="post">
+
+            <input style="width:300px" name="name" type="text" placeholder="item name" />
+            <button formaction="additem" >
+                Add
+            </button>
+            <br/><br/>
             <h3>Doing</h3>
             <table class="table table-striped">
                 <thead>
