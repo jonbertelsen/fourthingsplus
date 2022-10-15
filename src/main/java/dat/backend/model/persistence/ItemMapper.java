@@ -1,7 +1,10 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Item;
+import dat.backend.model.exceptions.DatabaseException;
 
+import java.io.IOException;
+import java.rmi.ConnectIOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,15 +117,17 @@ class ItemMapper
         }
     }
 
-    public static int addItem(String itemName, String username, ConnectionPool connectionPool)
+
+    public static int addItem(String name, String userName, ConnectionPool connectionPool)
     {
         String sql = "INSERT INTO item (name, username) VALUES (?,?)";
+
         try (Connection connection = connectionPool.getConnection())
         {
-            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
+            try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
             {
-                ps.setString(1, itemName);
-                ps.setString(2, username);
+                ps.setString(1, name);
+                ps.setString(2, userName);
                 ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
                 rs.next();
@@ -135,5 +140,4 @@ class ItemMapper
         }
         return 0;
     }
-
 }

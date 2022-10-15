@@ -13,11 +13,13 @@
 
         <form method="post">
 
-            <input style="width:300px" name="name" type="text" placeholder="item name" />
-            <button formaction="additem" >
-                Add
-            </button>
-            <br/><br/>
+            <div class="mb-4">
+                <input type="text" name="name"/>
+                <button formaction="additem">
+                    Add item
+                </button>
+            </div>
+
             <h3>Doing</h3>
             <table class="table table-striped">
                 <thead>
@@ -33,10 +35,10 @@
                                     ${item.name} (${item.created})
                             </td>
                             <td>
-                                <button formaction="toggleitem" name="item_id" value="${item.id}" >
+                                <button formaction="toggleitem" name="item_id" value="${item.id}">
                                     Done
                                 </button>
-                                <button formaction="editform" name="item_id" value="${item.id}" >
+                                <button formaction="editform" name="item_id" value="${item.id}">
                                     Edit
                                 </button>
                             </td>
@@ -60,7 +62,7 @@
                                     ${item.name} (${item.created})
                             </td>
                             <td>
-                                <button formaction="toggleitem" name="item_id" value="${item.id}" >
+                                <button formaction="toggleitem" name="item_id" value="${item.id}">
                                     Undo
                                 </button>
                             </td>

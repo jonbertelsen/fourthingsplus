@@ -1,6 +1,7 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Item;
+import dat.backend.model.exceptions.DatabaseException;
 
 import java.util.List;
 
@@ -26,8 +27,9 @@ public class ItemFacade
         ItemMapper.updateItemName(item_id, name, connectionPool);
     }
 
-    public static int addItem(String itemName, String user, ConnectionPool connectionPool)
+
+    public static int addItem(String name, String userName, ConnectionPool connectionPool)
     {
-        return ItemMapper.addItem(itemName, user, connectionPool);
+        return ItemMapper.addItem(name, userName, connectionPool);
     }
 }

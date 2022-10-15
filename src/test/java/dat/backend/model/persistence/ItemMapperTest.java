@@ -2,6 +2,7 @@ package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Item;
 import dat.backend.model.entities.User;
+import dat.backend.model.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,18 +98,17 @@ class ItemMapperTest
     @Test
     void getItems()
     {
-        List<Item> expectedItems = Arrays.asList(i1, i2, i3);
         List<Item> actualItems = ItemFacade.getItems(connectionPool);
         assertEquals(3, actualItems.size());
-        assertThat(expectedItems, hasItems(i1, i2, i3));
+        assertThat(actualItems, hasItems(i1, i2, i3));
     }
 
     @Test
     void toggleItem()
     {
         boolean expected = !i1.isDone();
-        ItemFacade.toggleItem(1, connectionPool);
-        boolean actual = ItemFacade.getItemById(1, connectionPool).isDone();
+        ItemFacade.toggleItem(i1.getId(), connectionPool);
+        boolean actual = ItemFacade.getItemById(i1.getId(), connectionPool).isDone();
         assertEquals(expected, actual);
     }
 
@@ -130,8 +130,9 @@ class ItemMapperTest
         assertEquals(expected, actual);
     }
 
+
     @Test
-    void addItem()
+    void addItem() throws DatabaseException
     {
         String newName = "Købe 10 æg";
         Item expected = new Item(4, newName, false, "user");
@@ -139,4 +140,5 @@ class ItemMapperTest
         Item actual = ItemFacade.getItemById(newItemId, connectionPool);
         assertEquals(expected, actual);
     }
+
 }

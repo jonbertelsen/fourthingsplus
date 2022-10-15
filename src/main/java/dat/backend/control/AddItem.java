@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import com.sun.net.httpserver.HttpPrincipal;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.Item;
 import dat.backend.model.entities.User;
@@ -26,15 +27,15 @@ public class AddItem extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
+        String name = request.getParameter("name");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        String itemName = request.getParameter("name");
-        int newItemId = ItemFacade.addItem(itemName, user.getUsername(), connectionPool);
+        String userName = user.getUsername();
+
+        int newItemId = ItemFacade.addItem(name,userName, connectionPool );
+
         List<Item> itemList = ItemFacade.getItems(connectionPool);
         request.setAttribute("itemList", itemList);
         request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
-
     }
 }
