@@ -59,7 +59,7 @@ class ItemMapper
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            System.out.println(e.toString());
         }
 
     }
